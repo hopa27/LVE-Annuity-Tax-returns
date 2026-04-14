@@ -10,18 +10,26 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 - **Node.js version**: 24
 - **Package manager**: pnpm
 - **TypeScript version**: 5.9
-- **API framework**: Express 5
-- **Database**: PostgreSQL + Drizzle ORM
-- **Validation**: Zod (`zod/v4`), `drizzle-zod`
-- **API codegen**: Orval (from OpenAPI spec)
-- **Build**: esbuild (CJS bundle)
+- **Frontend framework**: React + Vite
+- **Styling**: Tailwind CSS
+- **Design System**: LVE Component Library (Livvic + Mulish fonts, LVE color palette)
+
+## Artifacts
+
+### Annuity Tax Returns (`artifacts/annuity-tax-returns`)
+- Static React web app (no backend API)
+- Modernized version of legacy desktop "Tax Return Generation" tool
+- Uses LVE design system: navy header (#00263e), blue primary (#006cf4), green accents (#178830)
+- Components: Header, Footer, LveButton (cva variants), LveInput, YearSelector, AboutDialog
+- Main page: TaxReturnGeneration - simulates tax return processing with progress bar and log output
+- Fonts: Livvic (headers/buttons), Mulish (body/inputs) via Google Fonts
+- No backend required - deployable as static website
 
 ## Key Commands
 
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm run build` — typecheck + build all packages
-- `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from OpenAPI spec
-- `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- `pnpm --filter @workspace/api-server run dev` — run API server locally
+- `pnpm --filter @workspace/annuity-tax-returns run dev` — run frontend locally
+- `pnpm --filter @workspace/annuity-tax-returns run build` — production build
 
 See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details.
