@@ -127,20 +127,20 @@ export default function TaxReturnGeneration() {
     <div className="min-h-screen flex flex-col bg-[#f0f0f0]">
       <Header title="Annuity Tax Returns" />
 
-      <main className="flex-1 px-[142px] py-8">
-        <div className="max-w-[800px] mx-auto">
-          <div className="bg-white rounded-[12px] shadow-md p-8">
-            <h2 className="font-['Livvic'] text-xl font-semibold text-[#00263e] mb-6">
+      <main className="flex-1 px-[114px] py-6">
+        <div className="max-w-[640px] mx-auto">
+          <div className="bg-white rounded-[10px] shadow-md p-6">
+            <h2 className="font-['Livvic'] text-base font-semibold text-[#00263e] mb-5">
               Tax Return Generation
             </h2>
 
-            <div className="grid grid-cols-2 gap-6 mb-6">
+            <div className="grid grid-cols-2 gap-5 mb-5">
               <div>
-                <label className="block font-['Livvic'] text-sm font-medium text-[#3d3d3d] mb-2">
+                <label className="block font-['Livvic'] text-xs font-medium text-[#3d3d3d] mb-1.5">
                   Tax Year Start
                 </label>
-                <div className="flex items-center gap-3">
-                  <span className="font-['Mulish'] text-[16px] text-[#3d3d3d]">
+                <div className="flex items-center gap-2">
+                  <span className="font-['Mulish'] text-[13px] text-[#3d3d3d]">
                     {getStartDate(year)}
                   </span>
                   <YearSelector value={year} onChange={setYear} disabled={isRunning} />
@@ -148,33 +148,33 @@ export default function TaxReturnGeneration() {
               </div>
 
               <div>
-                <label className="block font-['Livvic'] text-sm font-medium text-[#3d3d3d] mb-2">
+                <label className="block font-['Livvic'] text-xs font-medium text-[#3d3d3d] mb-1.5">
                   Tax Year End
                 </label>
-                <span className="font-['Mulish'] text-[16px] text-[#3d3d3d] h-[44px] flex items-center">
+                <span className="font-['Mulish'] text-[13px] text-[#3d3d3d] h-[35px] flex items-center">
                   {getEndDate(year)}
                 </span>
               </div>
             </div>
 
-            <div className="flex items-center gap-4 mb-6">
+            <div className="flex items-center gap-3 mb-5">
               <LveButton
                 onClick={handleRun}
                 disabled={isRunning}
-                className="min-w-[160px]"
+                className="min-w-[128px]"
               >
-                <MdPlayArrow className="mr-2" size={20} />
+                <MdPlayArrow className="mr-1.5" size={16} />
                 {isRunning ? 'Running...' : 'Run'}
               </LveButton>
             </div>
 
             {isRunning && (
-              <div className="mb-6">
-                <div className="flex justify-between font-['Mulish'] text-sm text-[#3d3d3d] mb-1">
+              <div className="mb-5">
+                <div className="flex justify-between font-['Mulish'] text-xs text-[#3d3d3d] mb-1">
                   <span>Processing policies...</span>
                   <span>{progress}%</span>
                 </div>
-                <div className="w-full h-2 bg-[#eaf5f8] rounded-full overflow-hidden">
+                <div className="w-full h-1.5 bg-[#eaf5f8] rounded-full overflow-hidden">
                   <div
                     className="h-full bg-[#006cf4] rounded-full transition-all duration-300"
                     style={{ width: `${progress}%` }}
@@ -183,47 +183,47 @@ export default function TaxReturnGeneration() {
               </div>
             )}
 
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-6">
-                <div className="flex items-center gap-2">
-                  <span className="font-['Livvic'] text-sm font-medium text-[#3d3d3d]">Status:</span>
-                  <span className={`font-['Livvic'] text-lg font-bold ${statusColor}`}>
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-5">
+                <div className="flex items-center gap-1.5">
+                  <span className="font-['Livvic'] text-xs font-medium text-[#3d3d3d]">Status:</span>
+                  <span className={`font-['Livvic'] text-sm font-bold ${statusColor}`}>
                     {status}
                   </span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="font-['Livvic'] text-sm font-medium text-[#3d3d3d]">Policies:</span>
-                  <span className="font-['Mulish'] text-[16px] text-[#3d3d3d] font-semibold">
+                <div className="flex items-center gap-1.5">
+                  <span className="font-['Livvic'] text-xs font-medium text-[#3d3d3d]">Policies:</span>
+                  <span className="font-['Mulish'] text-[13px] text-[#3d3d3d] font-semibold">
                     {String(policyCount).padStart(5, '0')}
                   </span>
                 </div>
               </div>
             </div>
 
-            <div className="flex gap-3 mb-4">
+            <div className="flex gap-2 mb-3">
               <LveButton variant="secondary" size="sm" onClick={handlePrintErrorLog} disabled={isRunning}>
-                <MdErrorOutline className="mr-2" size={16} />
+                <MdErrorOutline className="mr-1.5" size={13} />
                 Print Error Log
               </LveButton>
               <LveButton variant="secondary" size="sm" onClick={() => setAboutOpen(true)}>
-                <MdInfoOutline className="mr-2" size={16} />
+                <MdInfoOutline className="mr-1.5" size={13} />
                 About
               </LveButton>
             </div>
 
             <div
               ref={logContainerRef}
-              className="h-[280px] bg-[#00263e] rounded-[8px] p-4 overflow-y-auto font-mono text-[13px] leading-relaxed"
+              className="h-[224px] bg-[#00263e] rounded-[6px] p-3 overflow-y-auto font-mono text-[11px] leading-relaxed"
             >
               {logs.length === 0 ? (
                 <div className="flex items-center justify-center h-full">
-                  <span className="text-slate-500 font-['Mulish'] text-sm">
+                  <span className="text-slate-500 font-['Mulish'] text-xs">
                     Output log will appear here when you run the process
                   </span>
                 </div>
               ) : (
                 logs.map((log, i) => (
-                  <div key={i} className="flex gap-2">
+                  <div key={i} className="flex gap-1.5">
                     <span className="text-slate-500 shrink-0">[{log.timestamp}]</span>
                     <span
                       className={
