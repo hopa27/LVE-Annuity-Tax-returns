@@ -19,7 +19,6 @@ export default function Header({ title }: HeaderProps) {
             Logout
           </button>
         </div>
-        <div className="h-px bg-slate-600/50 mt-3" />
       </div>
     </header>
   );
