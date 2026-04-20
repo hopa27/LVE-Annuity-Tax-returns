@@ -10,10 +10,10 @@ export default function Header({ title }: HeaderProps) {
       <div className="px-[114px] pt-3 pb-5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
+            <img src={logo} alt="LV= Logo" className="h-5" />
             <h1 className="font-['Livvic'] text-2xl font-normal tracking-tight text-white">
               {title}
             </h1>
-            <img src={logo} alt="LV= Logo" className="h-5" />
           </div>
           <button className="h-7 px-3 text-white font-['Livvic'] text-xs rounded hover:bg-white/10 transition-colors">
             Logout
