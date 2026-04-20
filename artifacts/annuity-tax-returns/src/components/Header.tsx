@@ -7,7 +7,7 @@ interface HeaderProps {
 export default function Header({ title }: HeaderProps) {
   return (
     <header className="w-full bg-[#00263e] text-white">
-      <div className="px-[114px] pt-3 pb-5">
+      <div className="max-w-[1200px] mx-auto px-6 pt-3 pb-5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <img src={logo} alt="LV= Logo" className="h-5" />
