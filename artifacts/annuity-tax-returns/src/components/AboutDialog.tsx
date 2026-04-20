@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MdClose, MdContentCopy, MdEmail, MdCheck } from 'react-icons/md';
+import { MdClose, MdContentCopy, MdEmail, MdCheck, MdInfo } from 'react-icons/md';
 import { LveButton } from './LveButton';
 import logo from '../assets/lve-logo.png';
 
@@ -25,6 +25,7 @@ export default function AboutDialog({ open, onClose }: AboutDialogProps) {
   const [emailSubject, setEmailSubject] = useState(
     'Annuity Tax Returns - System Information'
   );
+  const [emailError, setEmailError] = useState(false);
 
   if (!open) return null;
 
@@ -50,6 +51,10 @@ export default function AboutDialog({ open, onClose }: AboutDialogProps) {
   };
 
   const handleEmailConfirm = () => {
+    if (!emailSubject.trim()) {
+      setEmailError(true);
+      return;
+    }
     const body = encodeURIComponent(
       Object.entries(aboutInfo)
         .map(([k, v]) => {
@@ -150,6 +155,44 @@ export default function AboutDialog({ open, onClose }: AboutDialogProps) {
         </div>
       </div>
 
+      {emailError && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center">
+          <div
+            className="absolute inset-0 bg-black/40"
+            onClick={() => setEmailError(false)}
+          />
+          <div className="relative bg-white rounded-[10px] shadow-2xl w-full max-w-[380px] z-10 overflow-hidden">
+            <div className="flex items-center justify-between bg-[#00263e] px-4 py-2.5">
+              <h3 className="font-['Livvic'] text-sm font-semibold text-white">
+                Information
+              </h3>
+              <button
+                onClick={() => setEmailError(false)}
+                className="text-white/80 hover:text-white transition-colors"
+                aria-label="Close"
+              >
+                <MdClose size={18} />
+              </button>
+            </div>
+            <div className="p-5">
+              <div className="flex items-start gap-3 mb-5">
+                <MdInfo size={32} className="text-[#006cf4] shrink-0" />
+                <div className="font-['Mulish'] text-[12px] text-[#3d3d3d] leading-relaxed">
+                  Sorry, your email could not be sent due to the following error:
+                  <br />
+                  <span className="font-semibold">You did not type a subject.</span>
+                </div>
+              </div>
+              <div className="flex justify-end border-t border-slate-200 pt-4">
+                <LveButton size="sm" onClick={() => setEmailError(false)} autoFocus>
+                  OK
+                </LveButton>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {emailOpen && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center">
           <div
@@ -177,7 +220,10 @@ export default function AboutDialog({ open, onClose }: AboutDialogProps) {
               <input
                 type="text"
                 value={emailSubject}
-                onChange={(e) => setEmailSubject(e.target.value)}
+                onChange={(e) => {
+                  setEmailSubject(e.target.value);
+                  if (emailError) setEmailError(false);
+                }}
                 autoFocus
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') handleEmailConfirm();
