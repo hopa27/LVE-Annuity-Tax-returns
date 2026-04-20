@@ -101,18 +101,38 @@ export default function TaxReturnGeneration() {
   }, [year, addLog]);
 
   const handlePrintErrorLog = useCallback(() => {
-    const errorLogs = logs.filter(l => l.type === 'error');
-    if (errorLogs.length === 0) {
-      addLog('info', 'No errors to report');
-      return;
-    }
+    const now = new Date();
+    const dd = String(now.getDate()).padStart(2, '0');
+    const mm = String(now.getMonth() + 1).padStart(2, '0');
+    const yyyy = now.getFullYear();
+    const hh = String(now.getHours()).padStart(2, '0');
+    const mi = String(now.getMinutes()).padStart(2, '0');
+    const ss = String(now.getSeconds()).padStart(2, '0');
+    const stamp = `${dd}/${mm}/${yyyy} ${hh}:${mi}:${ss}`;
 
-    addLog('info', '--- ERROR LOG REPORT ---');
-    errorLogs.forEach(log => {
-      addLog('info', `[${log.timestamp}] ${log.message}`);
+    const separator = '='.repeat(60);
+    const header = `*** ERROR LOG FOR ${stamp} ***`;
+    const ts = `${hh}:${mi}:${ss}`;
+
+    setLogs(prev => {
+      const errorLogs = prev.filter(l => l.type === 'error');
+      const lines: LogEntry[] = [
+        { timestamp: ts, type: 'info', message: header },
+        { timestamp: ts, type: 'info', message: separator },
+      ];
+      if (errorLogs.length === 0) {
+        for (let i = 0; i < 6; i++) {
+          lines.push({ timestamp: ts, type: 'info', message: separator });
+        }
+      } else {
+        errorLogs.forEach(log => {
+          lines.push({ timestamp: ts, type: 'error', message: `[${log.timestamp}] ${log.message}` });
+          lines.push({ timestamp: ts, type: 'info', message: separator });
+        });
+      }
+      return lines;
     });
-    addLog('info', `--- END OF REPORT (${errorLogs.length} error(s)) ---`);
-  }, [logs, addLog]);
+  }, []);
 
   const statusColor = {
     READY: 'text-[#178830]',
