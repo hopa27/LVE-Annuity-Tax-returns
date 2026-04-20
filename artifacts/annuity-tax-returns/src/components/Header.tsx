@@ -6,8 +6,8 @@ interface HeaderProps {
 
 export default function Header({ title }: HeaderProps) {
   return (
-    <header className="w-full bg-[#00263e] text-white">
-      <div className="max-w-[1200px] mx-auto px-6 pt-3 pb-5">
+    <header className="w-full bg-[#00263e] text-white flex items-center min-h-[64px]">
+      <div className="w-full max-w-[1200px] mx-auto px-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <img src={logo} alt="LV= Logo" className="h-5" />
