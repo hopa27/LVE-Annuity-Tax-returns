@@ -318,99 +318,159 @@ export default function TaxReturnGeneration() {
             className="absolute inset-0 bg-black/40"
             onClick={() => setSaveDialogOpen(false)}
           />
-          <div className="relative bg-white rounded-[10px] shadow-2xl w-full max-w-[560px] z-10 overflow-hidden">
-            <div className="flex items-center justify-between bg-[#00263e] px-4 py-2.5">
-              <h3 className="font-['Livvic'] text-sm font-semibold text-white">
-                Save Print Output As
-              </h3>
-              <button
-                onClick={() => setSaveDialogOpen(false)}
-                className="text-white/80 hover:text-white text-lg leading-none"
-                aria-label="Close"
-              >
-                ×
-              </button>
+          <div
+            className="relative bg-[#f0f0f0] border border-[#a0a0a0] shadow-2xl w-full max-w-[640px] z-10 overflow-hidden"
+            style={{ fontFamily: 'Segoe UI, Tahoma, sans-serif' }}
+          >
+            {/* Windows title bar */}
+            <div className="flex items-center justify-between bg-[#f0f0f0] border-b border-[#d0d0d0] px-3 py-1.5">
+              <span className="text-[12px] text-[#000]">Save Print Output As</span>
+              <div className="flex gap-0">
+                <button className="w-7 h-5 hover:bg-[#e0e0e0] text-[#000] text-[11px] flex items-center justify-center">
+                  &minus;
+                </button>
+                <button className="w-7 h-5 hover:bg-[#e0e0e0] text-[#000] text-[10px] flex items-center justify-center">
+                  ▢
+                </button>
+                <button
+                  onClick={() => setSaveDialogOpen(false)}
+                  className="w-7 h-5 hover:bg-[#e81123] hover:text-white text-[#000] text-[12px] flex items-center justify-center"
+                  aria-label="Close"
+                >
+                  ✕
+                </button>
+              </div>
             </div>
 
-            <div className="p-5">
-              <div className="flex items-center gap-2 mb-3 text-[12px] font-['Mulish'] text-[#3d3d3d]">
-                <span className="font-semibold">Location:</span>
-                <span className="px-2 py-1 bg-slate-100 border border-slate-300 rounded-[6px]">
-                  This PC › Documents
-                </span>
+            {/* Address bar row */}
+            <div className="flex items-center gap-2 px-2 py-1.5 bg-[#f0f0f0] border-b border-[#d0d0d0]">
+              <button className="px-1 text-[#606060] hover:bg-[#e0e0e0] rounded text-[14px]">←</button>
+              <button className="px-1 text-[#606060] hover:bg-[#e0e0e0] rounded text-[14px]">→</button>
+              <button className="px-1 text-[#606060] hover:bg-[#e0e0e0] rounded text-[14px]">↑</button>
+              <div className="flex-1 flex items-center bg-white border border-[#a0a0a0] h-6 px-1 text-[11px] text-[#000]">
+                <span>📁</span>
+                <span className="mx-1">›</span>
+                <span>This PC</span>
+                <span className="mx-1">›</span>
+                <span>Documents</span>
               </div>
-
-              <div className="border border-slate-300 rounded-[6px] bg-white max-h-[200px] overflow-y-auto mb-4">
-                <table className="w-full text-[12px] font-['Mulish']">
-                  <thead className="bg-slate-100 text-[#3d3d3d] sticky top-0">
-                    <tr>
-                      <th className="text-left px-3 py-1.5 font-semibold">Name</th>
-                      <th className="text-left px-3 py-1.5 font-semibold">Date modified</th>
-                      <th className="text-left px-3 py-1.5 font-semibold">Type</th>
-                    </tr>
-                  </thead>
-                  <tbody className="text-[#3d3d3d]">
-                    {[
-                      { n: 'Completion and Annual Statements', d: '6/19/2025', t: 'File folder' },
-                      { n: 'Custom Office Templates', d: '1/31/2025', t: 'File folder' },
-                      { n: 'Tax Returns Archive', d: '12/8/2025', t: 'File folder' },
-                      { n: 'Clanad Policies.pdf', d: '2/18/2026', t: 'PDF Document' },
-                      { n: 'Error list.pdf', d: '2/10/2026', t: 'PDF Document' },
-                    ].map((f, i) => (
-                      <tr key={i} className="border-t border-slate-200 hover:bg-slate-50">
-                        <td className="px-3 py-1 truncate">{f.n}</td>
-                        <td className="px-3 py-1">{f.d}</td>
-                        <td className="px-3 py-1">{f.t}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+              <div className="flex items-center bg-white border border-[#a0a0a0] h-6 px-2 text-[11px] text-[#606060] w-[140px]">
+                <span>🔍</span>
+                <span className="ml-1">Search Documents</span>
               </div>
+            </div>
 
-              <div className="space-y-2 mb-4">
-                <div className="flex items-center gap-2">
-                  <label className="font-['Mulish'] text-[12px] font-semibold text-[#3d3d3d] w-[90px] shrink-0">
-                    File name:
-                  </label>
-                  <input
-                    type="text"
-                    value={saveFilename}
-                    onChange={(e) => setSaveFilename(e.target.value)}
-                    autoFocus
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') handleSavePrintOutput();
-                      if (e.key === 'Escape') setSaveDialogOpen(false);
-                    }}
-                    className="flex-1 px-2.5 py-1.5 text-[12px] font-['Mulish'] text-[#3d3d3d] bg-white border border-slate-300 rounded-[8px] focus:outline-none focus:border-[#006cf4] focus:ring-1 focus:ring-[#006cf4]"
-                  />
-                </div>
-                <div className="flex items-center gap-2">
-                  <label className="font-['Mulish'] text-[12px] font-semibold text-[#3d3d3d] w-[90px] shrink-0">
-                    Save as type:
-                  </label>
-                  <select
-                    value={saveType}
-                    onChange={(e) => setSaveType(e.target.value as 'FADV' | 'PDF' | 'TXT')}
-                    className="flex-1 px-2.5 py-1.5 text-[12px] font-['Mulish'] text-[#3d3d3d] bg-white border border-slate-300 rounded-[8px] focus:outline-none focus:border-[#006cf4] focus:ring-1 focus:ring-[#006cf4]"
+            {/* Toolbar */}
+            <div className="flex items-center gap-3 px-3 py-1 bg-[#f0f0f0] border-b border-[#d0d0d0] text-[11px] text-[#000]">
+              <span className="hover:bg-[#e0e0e0] px-1 cursor-default">Organize ▾</span>
+              <span className="hover:bg-[#e0e0e0] px-1 cursor-default">New folder</span>
+            </div>
+
+            {/* Body: sidebar + file list */}
+            <div className="flex bg-white border-b border-[#d0d0d0]" style={{ height: 220 }}>
+              {/* Sidebar */}
+              <div className="w-[160px] border-r border-[#d0d0d0] overflow-y-auto text-[11px] text-[#000] py-1">
+                {[
+                  { i: '💻', n: 'This PC', bold: true },
+                  { i: '🖥️', n: '3D Objects' },
+                  { i: '🖥️', n: 'Desktop' },
+                  { i: '📄', n: 'Documents', selected: true },
+                  { i: '⬇', n: 'Downloads' },
+                  { i: '🎵', n: 'Music' },
+                  { i: '🖼', n: 'Pictures' },
+                  { i: '🎬', n: 'Videos' },
+                  { i: '💾', n: 'Global (G:)' },
+                  { i: '💾', n: 'Home (H:)' },
+                ].map((item, i) => (
+                  <div
+                    key={i}
+                    className={`flex items-center gap-1.5 px-2 py-0.5 cursor-default ${
+                      item.selected ? 'bg-[#cce8ff] border border-[#99d1ff]' : 'hover:bg-[#e5f3ff]'
+                    } ${item.bold ? 'font-semibold' : ''}`}
                   >
-                    <option value="FADV">FADV Document (*.FADV)</option>
-                    <option value="PDF">PDF Document (*.pdf)</option>
-                    <option value="TXT">Text Document (*.txt)</option>
-                  </select>
-                </div>
+                    <span>{item.i}</span>
+                    <span className="truncate">{item.n}</span>
+                  </div>
+                ))}
               </div>
 
-              <div className="flex justify-end gap-2 border-t border-slate-200 pt-4">
-                <LveButton
-                  variant="secondary"
-                  size="sm"
+              {/* File list */}
+              <div className="flex-1 overflow-y-auto">
+                <div className="grid grid-cols-[1fr_120px_120px] bg-[#f5f5f5] border-b border-[#d0d0d0] text-[11px] text-[#000] sticky top-0">
+                  <div className="px-2 py-1 border-r border-[#d0d0d0]">Name</div>
+                  <div className="px-2 py-1 border-r border-[#d0d0d0]">Date modified</div>
+                  <div className="px-2 py-1">Type</div>
+                </div>
+                {[
+                  { i: '📁', n: 'Completion and Annual Statements', d: '6/19/2025 1:56 PM', t: 'File folder' },
+                  { i: '📁', n: 'Custom Office Templates', d: '1/31/2025 7:46 AM', t: 'File folder' },
+                  { i: '📁', n: 'OneNote Notebooks', d: '9/5/2025 1:04 PM', t: 'File folder' },
+                  { i: '📁', n: 'SQL Server Management Studio', d: '12/8/2025 6:10 AM', t: 'File folder' },
+                  { i: '📁', n: 'Visual Studio 2017', d: '12/8/2025 6:09 AM', t: 'File folder' },
+                  { i: '📕', n: 'Clanad Policies.pdf', d: '2/18/2026 3:28 PM', t: 'Microsoft Edge' },
+                  { i: '📕', n: 'Error list.pdf', d: '2/10/2026 1:51 PM', t: 'Microsoft Edge' },
+                ].map((f, i) => (
+                  <div
+                    key={i}
+                    className="grid grid-cols-[1fr_120px_120px] hover:bg-[#e5f3ff] text-[11px] text-[#000] cursor-default"
+                  >
+                    <div className="px-2 py-0.5 truncate flex items-center gap-1">
+                      <span>{f.i}</span>
+                      <span className="truncate">{f.n}</span>
+                    </div>
+                    <div className="px-2 py-0.5 truncate">{f.d}</div>
+                    <div className="px-2 py-0.5 truncate">{f.t}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* File name + type */}
+            <div className="bg-[#f0f0f0] px-3 py-2 space-y-1.5">
+              <div className="flex items-center gap-2">
+                <label className="text-[11px] text-[#000] w-[80px] shrink-0">File name:</label>
+                <input
+                  type="text"
+                  value={saveFilename}
+                  onChange={(e) => setSaveFilename(e.target.value)}
+                  autoFocus
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') handleSavePrintOutput();
+                    if (e.key === 'Escape') setSaveDialogOpen(false);
+                  }}
+                  className="flex-1 px-1.5 py-0.5 h-6 text-[11px] text-[#000] bg-white border border-[#7a7a7a] focus:outline-none focus:border-[#0078d7]"
+                />
+              </div>
+              <div className="flex items-center gap-2">
+                <label className="text-[11px] text-[#000] w-[80px] shrink-0">Save as type:</label>
+                <select
+                  value={saveType}
+                  onChange={(e) => setSaveType(e.target.value as 'FADV' | 'PDF' | 'TXT')}
+                  className="flex-1 px-1 py-0.5 h-6 text-[11px] text-[#000] bg-white border border-[#7a7a7a] focus:outline-none focus:border-[#0078d7]"
+                >
+                  <option value="FADV">FADV Document (*.FADV)</option>
+                  <option value="PDF">PDF Document (*.pdf)</option>
+                  <option value="TXT">Text Document (*.txt)</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Footer buttons */}
+            <div className="bg-[#f0f0f0] px-3 py-2 flex items-center justify-between border-t border-[#d0d0d0]">
+              <button className="text-[11px] text-[#000] hover:underline">▲ Hide Folders</button>
+              <div className="flex gap-1.5">
+                <button
+                  onClick={handleSavePrintOutput}
+                  className="min-w-[75px] h-6 px-3 text-[11px] text-[#000] bg-[#e1e1e1] border border-[#adadad] hover:bg-[#e5f1fb] hover:border-[#0078d7]"
+                >
+                  Save
+                </button>
+                <button
                   onClick={() => setSaveDialogOpen(false)}
+                  className="min-w-[75px] h-6 px-3 text-[11px] text-[#000] bg-[#e1e1e1] border border-[#adadad] hover:bg-[#e5f1fb] hover:border-[#0078d7]"
                 >
                   Cancel
-                </LveButton>
-                <LveButton size="sm" onClick={handleSavePrintOutput}>
-                  Save
-                </LveButton>
+                </button>
               </div>
             </div>
           </div>
