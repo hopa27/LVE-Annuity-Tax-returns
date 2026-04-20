@@ -130,7 +130,42 @@ export default function TaxReturnGeneration() {
           lines.push({ timestamp: ts, type: 'info', message: separator });
         });
       }
-      return lines;
+
+      const reportText = lines.map(l => l.message).join('\n');
+      const fileStamp = `${yyyy}${mm}${dd}_${hh}${mi}${ss}`;
+      const filename = `ErrorLog_${fileStamp}.FADV`;
+
+      const blob = new Blob([reportText], { type: 'application/octet-stream' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+      const printWindow = window.open('', '_blank', 'width=720,height=600');
+      if (printWindow) {
+        const safe = reportText.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        printWindow.document.write(`<!DOCTYPE html><html><head><title>${filename}</title>
+          <style>
+            body { font-family: 'Courier New', monospace; font-size: 11px; padding: 20px; color: #000; background: #fff; white-space: pre; }
+            h1 { font-size: 12px; margin: 0 0 10px 0; }
+          </style></head><body><h1>${filename}</h1>${safe}</body></html>`);
+        printWindow.document.close();
+        printWindow.focus();
+        setTimeout(() => {
+          printWindow.print();
+        }, 250);
+      }
+
+      const completion: LogEntry[] = [
+        ...lines,
+        { timestamp: ts, type: 'success', message: `Saved to ${filename}` },
+        { timestamp: ts, type: 'info', message: 'Sent to printer...' },
+      ];
+      return completion;
     });
   }, []);
 
