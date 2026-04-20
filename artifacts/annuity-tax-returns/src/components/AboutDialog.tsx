@@ -21,6 +21,10 @@ const aboutInfo = {
 
 export default function AboutDialog({ open, onClose }: AboutDialogProps) {
   const [copied, setCopied] = useState(false);
+  const [emailOpen, setEmailOpen] = useState(false);
+  const [emailSubject, setEmailSubject] = useState(
+    'Annuity Tax Returns - System Information'
+  );
 
   if (!open) return null;
 
@@ -42,7 +46,10 @@ export default function AboutDialog({ open, onClose }: AboutDialogProps) {
   };
 
   const handleEmail = () => {
-    const subject = encodeURIComponent('Annuity Tax Returns - System Information');
+    setEmailOpen(true);
+  };
+
+  const handleEmailConfirm = () => {
     const body = encodeURIComponent(
       Object.entries(aboutInfo)
         .map(([k, v]) => {
@@ -51,7 +58,8 @@ export default function AboutDialog({ open, onClose }: AboutDialogProps) {
         })
         .join('\n')
     );
-    window.location.href = `mailto:support@lv.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:it-support@lv.com?subject=${encodeURIComponent(emailSubject)}&body=${body}`;
+    setEmailOpen(false);
   };
 
   const InfoRow = ({ label, value }: { label: string; value: string }) => (
@@ -141,6 +149,62 @@ export default function AboutDialog({ open, onClose }: AboutDialogProps) {
           </div>
         </div>
       </div>
+
+      {emailOpen && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center">
+          <div
+            className="absolute inset-0 bg-black/40"
+            onClick={() => setEmailOpen(false)}
+          />
+          <div className="relative bg-white rounded-[10px] shadow-2xl w-full max-w-[400px] z-10 overflow-hidden">
+            <div className="flex items-center justify-between bg-[#00263e] px-4 py-2.5">
+              <h3 className="font-['Livvic'] text-sm font-semibold text-white">
+                Email About Box contents to IT
+              </h3>
+              <button
+                onClick={() => setEmailOpen(false)}
+                className="text-white/80 hover:text-white transition-colors"
+                aria-label="Close"
+              >
+                <MdClose size={18} />
+              </button>
+            </div>
+
+            <div className="p-5">
+              <label className="block font-['Mulish'] text-[12px] font-semibold text-[#3d3d3d] mb-1.5">
+                Subject:
+              </label>
+              <input
+                type="text"
+                value={emailSubject}
+                onChange={(e) => setEmailSubject(e.target.value)}
+                autoFocus
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') handleEmailConfirm();
+                  if (e.key === 'Escape') setEmailOpen(false);
+                }}
+                className="w-full px-2.5 py-1.5 text-[12px] font-['Mulish'] text-[#3d3d3d] bg-white border border-slate-300 rounded-[8px] focus:outline-none focus:border-[#006cf4] focus:ring-1 focus:ring-[#006cf4]"
+              />
+              <p className="font-['Mulish'] text-[11px] text-slate-500 mt-1.5">
+                Press cancel to abort.
+              </p>
+
+              <div className="flex justify-end gap-2 border-t border-slate-200 pt-4 mt-5">
+                <LveButton
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setEmailOpen(false)}
+                >
+                  Cancel
+                </LveButton>
+                <LveButton size="sm" onClick={handleEmailConfirm}>
+                  OK
+                </LveButton>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
