@@ -192,7 +192,7 @@ export default function TaxReturnGeneration() {
     <div className="min-h-screen flex flex-col bg-[#f0f0f0]">
       <Header title="Annuity Tax Returns" />
 
-      <main className="flex-1 px-[114px] py-6">
+      <main className="flex-1 w-full max-w-[1200px] mx-auto px-6 py-6">
         <div className="max-w-[640px] mx-auto">
           <div className="bg-white rounded-[10px] shadow-md p-6">
             <h2 className="font-['Livvic'] text-base font-semibold text-[#00263e] mb-5">
