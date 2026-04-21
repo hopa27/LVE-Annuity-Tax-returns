@@ -14,8 +14,8 @@ interface LogEntry {
   message: string;
 }
 
-function getStartDate(year: number): string {
-  return `06 APR ${year}`;
+function getStartDate(_year: number): string {
+  return `06 APR `;
 }
 
 function getEndDate(year: number): string {
