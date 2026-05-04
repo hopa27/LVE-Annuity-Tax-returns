@@ -36,8 +36,8 @@ export default function YearSelector({ value, onChange, disabled = false }: Year
             <MdKeyboardArrowUp size={14} />
           </button>
           <button
-            onClick={() => onChange(value - 1)}
-            disabled={disabled}
+            onClick={() => onChange(Math.max(value - 1, 2000))}
+            disabled={disabled || value <= 2000}
             className="flex-1 px-1.5 flex items-center justify-center text-[#006cf4] hover:text-[#003578] disabled:text-[#979797] transition-colors"
           >
             <MdKeyboardArrowDown size={14} />
