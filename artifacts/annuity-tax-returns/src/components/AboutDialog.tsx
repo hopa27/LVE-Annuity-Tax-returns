@@ -225,11 +225,9 @@ export default function AboutDialog({ open, onClose }: AboutDialogProps) {
                   if (e.key === 'Enter') handleEmailConfirm();
                   if (e.key === 'Escape') setEmailOpen(false);
                 }}
-                className="w-full px-2.5 py-1.5 text-[12px] font-['Mulish'] text-[#3d3d3d] bg-white border border-slate-300 rounded-[8px] focus:outline-none focus:border-[#006cf4] focus:ring-1 focus:ring-[#006cf4]"
+                placeholder="Press cancel to abort."
+                className="w-full px-2.5 py-1.5 text-[12px] font-['Mulish'] text-[#3d3d3d] bg-white border border-slate-300 rounded-[8px] focus:outline-none focus:border-[#006cf4] focus:ring-1 focus:ring-[#006cf4] placeholder:text-slate-400"
               />
-              <p className="font-['Mulish'] text-[11px] text-slate-500 mt-1.5">
-                Press cancel to abort.
-              </p>
 
               <div className="flex justify-end gap-2 border-t border-slate-200 pt-4 mt-5">
                 <LveButton
