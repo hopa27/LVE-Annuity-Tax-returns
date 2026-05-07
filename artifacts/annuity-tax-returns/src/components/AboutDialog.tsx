@@ -23,9 +23,7 @@ const aboutInfo = {
 export default function AboutDialog({ open, onClose }: AboutDialogProps) {
   const [copied, setCopied] = useState(false);
   const [emailOpen, setEmailOpen] = useState(false);
-  const [emailSubject, setEmailSubject] = useState(
-    'Annuity Tax Returns - System Information'
-  );
+  const [emailSubject, setEmailSubject] = useState('');
   const [emailError, setEmailError] = useState(false);
 
   if (!open) return null;
