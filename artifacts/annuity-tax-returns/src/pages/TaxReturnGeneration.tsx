@@ -4,7 +4,7 @@ import Footer from '../components/Footer';
 import { LveButton } from '../components/LveButton';
 import YearSelector from '../components/YearSelector';
 import AboutDialog from '../components/AboutDialog';
-import { MdPlayArrow, MdErrorOutline, MdInfoOutline } from 'react-icons/md';
+import { MdPlayArrow, MdErrorOutline, MdInfoOutline, MdError } from 'react-icons/md';
 
 type Status = 'READY' | 'RUNNING' | 'COMPLETE' | 'ERROR';
 
@@ -272,21 +272,16 @@ export default function TaxReturnGeneration() {
             className="absolute inset-0 bg-black/40"
             onClick={() => setRunErrorOpen(false)}
           />
-          <div
-            className="relative bg-[#ece9d8] border border-[#7a96b3] shadow-2xl w-full max-w-[640px] z-10 overflow-hidden"
-            style={{ fontFamily: 'Tahoma, Segoe UI, sans-serif' }}
-          >
-            {/* Title bar */}
-            <div
-              className="flex items-center justify-between px-2 py-1"
-              style={{
-                background: 'linear-gradient(to bottom, #0a55b8 0%, #2978d8 50%, #0a55b8 100%)',
-              }}
-            >
-              <span className="text-[12px] font-bold text-white">Error</span>
+          <div className="relative bg-white rounded-[10px] shadow-2xl w-full max-w-[560px] z-10 overflow-hidden">
+            {/* Header */}
+            <div className="flex items-center justify-between bg-[#00263e] px-5 py-3">
+              <div className="flex items-center gap-2">
+                <MdError className="text-[#d72714]" size={20} />
+                <span className="font-['Livvic'] text-white text-[15px] font-semibold">Error</span>
+              </div>
               <button
                 onClick={() => setRunErrorOpen(false)}
-                className="w-5 h-4 bg-[#c95246] hover:bg-[#e06657] text-white text-[10px] font-bold flex items-center justify-center border border-white/30 rounded-sm"
+                className="text-white/80 hover:text-white text-[18px] leading-none"
                 aria-label="Close"
               >
                 ✕
@@ -294,31 +289,29 @@ export default function TaxReturnGeneration() {
             </div>
 
             {/* Body */}
-            <div className="p-5 flex items-start gap-4">
-              <div className="shrink-0 w-10 h-10 rounded-full bg-[#d72714] flex items-center justify-center shadow-inner">
-                <span className="text-white text-2xl font-bold leading-none">×</span>
+            <div className="px-6 py-5 flex items-start gap-4">
+              <div className="shrink-0 w-12 h-12 rounded-full bg-[#fdecea] flex items-center justify-center">
+                <MdError className="text-[#d72714]" size={28} />
               </div>
-              <div className="flex-1 text-[12px] text-[#000] leading-relaxed pt-1">
-                <p>There has been a problem, please notify Help Desk.</p>
+              <div className="flex-1 font-['Mulish'] text-[13px] text-[#3d3d3d] leading-relaxed pt-1 space-y-2">
+                <p className="font-semibold text-[#00263e]">
+                  There has been a problem, please notify Help Desk.
+                </p>
                 <p className="break-all">
-                  Cannot open file "\\whynvap13\UAT\Tax_Returns\Exe\{year}\QryTaxReturn.txt".
-                  The system cannot find the path specified
+                  Cannot open file{' '}
+                  <span className="font-mono text-[12px] text-[#d72714] bg-[#fdecea] px-1.5 py-0.5 rounded">
+                    \\whynvap13\UAT\Tax_Returns\Exe\{year}\QryTaxReturn.txt
+                  </span>
+                  . The system cannot find the path specified.
                 </p>
               </div>
             </div>
 
-            {/* OK button */}
-            <div className="flex justify-center pb-4">
-              <button
-                onClick={() => setRunErrorOpen(false)}
-                autoFocus
-                className="min-w-[80px] h-[26px] px-4 text-[12px] text-[#000] bg-[#ece9d8] border border-[#003c74] hover:bg-[#e3deb8] focus:outline focus:outline-1 focus:outline-[#003c74]"
-                style={{
-                  background: 'linear-gradient(to bottom, #f6f4ec 0%, #ece9d8 50%, #d8d4c0 100%)',
-                }}
-              >
+            {/* Footer */}
+            <div className="px-6 py-4 bg-[#f7f9fb] border-t border-[#eaf5f8] flex justify-end">
+              <LveButton onClick={() => setRunErrorOpen(false)} autoFocus className="min-w-[100px]">
                 OK
-              </button>
+              </LveButton>
             </div>
           </div>
         </div>
