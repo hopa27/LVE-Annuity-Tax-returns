@@ -52,11 +52,8 @@ export default function TaxReturnGeneration() {
   }, []);
 
   const handleRun = useCallback(() => {
-    setStatus('ERROR');
-    addLog('info', 'Tax Return Generation started');
-    addLog('error', `Cannot open file "\\\\whynvap13\\UAT\\Tax_Returns\\Exe\\${year}\\QryTaxReturn.txt". The system cannot find the path specified`);
     setRunErrorOpen(true);
-  }, [year, addLog]);
+  }, []);
 
   const handlePrintErrorLog = useCallback(() => {
     const now = new Date();
