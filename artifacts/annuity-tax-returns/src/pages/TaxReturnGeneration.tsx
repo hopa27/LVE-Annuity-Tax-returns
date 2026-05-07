@@ -93,8 +93,8 @@ export default function TaxReturnGeneration() {
       const fileStamp = `${yyyy}${mm}${dd}_${hh}${mi}${ss}`;
 
       setPendingReportText(reportText);
-      setSaveFilename(`ErrorLog_${fileStamp}`);
-      setSaveType('FADV');
+      setSaveFilename('');
+      setSaveType('PDF');
 
       setTimeout(() => {
         addLog('info', 'Attempting to print...');
