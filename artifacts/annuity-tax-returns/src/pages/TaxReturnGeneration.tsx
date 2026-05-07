@@ -33,6 +33,7 @@ export default function TaxReturnGeneration() {
   const [saveFilename, setSaveFilename] = useState('');
   const [saveType, setSaveType] = useState<'FADV' | 'PDF' | 'TXT'>('FADV');
   const [pendingReportText, setPendingReportText] = useState('');
+  const [runErrorOpen, setRunErrorOpen] = useState(false);
   const logContainerRef = useRef<HTMLDivElement>(null);
   const runningRef = useRef(false);
 
@@ -50,58 +51,11 @@ export default function TaxReturnGeneration() {
     }, 50);
   }, []);
 
-  const handleRun = useCallback(async () => {
-    if (runningRef.current) return;
-    runningRef.current = true;
-    setStatus('RUNNING');
-    setLogs([]);
-    setPolicyCount(0);
-    setProgress(0);
-
-    const startDate = getStartDate(year);
-    const endDate = getEndDate(year);
-
-    addLog('info', `Tax Return Generation started`);
-    addLog('info', `Period: ${startDate} - ${endDate}`);
-    addLog('info', `Initialising policy scan...`);
-
-    const totalPolicies = Math.floor(Math.random() * 500) + 200;
-    const batchSize = Math.floor(totalPolicies / 10);
-
-    await new Promise(r => setTimeout(r, 800));
-    addLog('info', `Found ${totalPolicies} active policies`);
-
-    let processed = 0;
-    let errors = 0;
-
-    for (let batch = 0; batch < 10; batch++) {
-      await new Promise(r => setTimeout(r, 300 + Math.random() * 400));
-      const count = batch === 9 ? totalPolicies - processed : batchSize;
-      processed += count;
-
-      if (Math.random() < 0.15) {
-        const errorPolicy = `POL${String(Math.floor(Math.random() * 99999)).padStart(5, '0')}`;
-        errors++;
-        addLog('error', `Policy ${errorPolicy}: Missing annuity payment record`);
-      }
-
-      setPolicyCount(processed);
-      setProgress(Math.round((processed / totalPolicies) * 100));
-      addLog('info', `Processed ${processed} of ${totalPolicies} policies`);
-    }
-
-    await new Promise(r => setTimeout(r, 500));
-
-    if (errors > 0) {
-      addLog('info', `Generation complete with ${errors} error(s)`);
-      addLog('success', `Successfully processed ${totalPolicies - errors} policies`);
-    } else {
-      addLog('success', `All ${totalPolicies} policies processed successfully`);
-    }
-
-    addLog('info', `Tax return files generated for period ${startDate} - ${endDate}`);
-    setStatus(errors > 0 ? 'ERROR' : 'COMPLETE');
-    runningRef.current = false;
+  const handleRun = useCallback(() => {
+    setStatus('ERROR');
+    addLog('info', 'Tax Return Generation started');
+    addLog('error', `Cannot open file "\\\\whynvap13\\UAT\\Tax_Returns\\Exe\\${year}\\QryTaxReturn.txt". The system cannot find the path specified`);
+    setRunErrorOpen(true);
   }, [year, addLog]);
 
   const handlePrintErrorLog = useCallback(() => {
@@ -311,6 +265,64 @@ export default function TaxReturnGeneration() {
 
       <Footer />
       <AboutDialog open={aboutOpen} onClose={() => setAboutOpen(false)} />
+
+      {runErrorOpen && (
+        <div className="fixed inset-0 z-[55] flex items-center justify-center">
+          <div
+            className="absolute inset-0 bg-black/40"
+            onClick={() => setRunErrorOpen(false)}
+          />
+          <div
+            className="relative bg-[#ece9d8] border border-[#7a96b3] shadow-2xl w-full max-w-[640px] z-10 overflow-hidden"
+            style={{ fontFamily: 'Tahoma, Segoe UI, sans-serif' }}
+          >
+            {/* Title bar */}
+            <div
+              className="flex items-center justify-between px-2 py-1"
+              style={{
+                background: 'linear-gradient(to bottom, #0a55b8 0%, #2978d8 50%, #0a55b8 100%)',
+              }}
+            >
+              <span className="text-[12px] font-bold text-white">Error</span>
+              <button
+                onClick={() => setRunErrorOpen(false)}
+                className="w-5 h-4 bg-[#c95246] hover:bg-[#e06657] text-white text-[10px] font-bold flex items-center justify-center border border-white/30 rounded-sm"
+                aria-label="Close"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Body */}
+            <div className="p-5 flex items-start gap-4">
+              <div className="shrink-0 w-10 h-10 rounded-full bg-[#d72714] flex items-center justify-center shadow-inner">
+                <span className="text-white text-2xl font-bold leading-none">×</span>
+              </div>
+              <div className="flex-1 text-[12px] text-[#000] leading-relaxed pt-1">
+                <p>There has been a problem, please notify Help Desk.</p>
+                <p className="break-all">
+                  Cannot open file "\\whynvap13\UAT\Tax_Returns\Exe\{year}\QryTaxReturn.txt".
+                  The system cannot find the path specified
+                </p>
+              </div>
+            </div>
+
+            {/* OK button */}
+            <div className="flex justify-center pb-4">
+              <button
+                onClick={() => setRunErrorOpen(false)}
+                autoFocus
+                className="min-w-[80px] h-[26px] px-4 text-[12px] text-[#000] bg-[#ece9d8] border border-[#003c74] hover:bg-[#e3deb8] focus:outline focus:outline-1 focus:outline-[#003c74]"
+                style={{
+                  background: 'linear-gradient(to bottom, #f6f4ec 0%, #ece9d8 50%, #d8d4c0 100%)',
+                }}
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {saveDialogOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
