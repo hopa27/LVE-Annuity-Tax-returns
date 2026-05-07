@@ -6,3 +6,9 @@ id = "oOxOKFR1vBzbW5e0f7Ksk"
 uri = "file://ANNUITY_TAX_RETURNS_SCREEN_FLOW.md"
 type = "text"
 title = "Annuity Tax Returns — Screen Flow"
+
+[[outputs]]
+id = "OXNRBW_T4x_vbJPU1aSG1"
+uri = "file://ANNUITY_TAX_RETURNS_DIGEST.md"
+type = "text"
+title = "Annuity Tax Returns — Application Digest"
