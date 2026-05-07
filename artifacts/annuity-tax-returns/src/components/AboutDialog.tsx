@@ -9,14 +9,15 @@ interface AboutDialogProps {
 }
 
 const aboutInfo = {
-  product: 'Annuity Tax Returns',
-  version: '2.0.0',
-  executable: 'https://annuity-tax-returns.lv.co.uk/app',
-  workingDirectory: '/var/www/tax-returns',
-  environment: 'Web (Static Deployment)',
-  user: 'web-session',
-  workstation: typeof navigator !== 'undefined' ? navigator.platform : 'Browser',
-  system: typeof navigator !== 'undefined' ? navigator.userAgent.split(') ')[0] + ')' : 'Web Browser',
+  product: 'Tax Returns',
+  version: '1.0.0.43',
+  executable: '\\\\whynvap13\\UAT\\Tax_Returns\\Exe\\TaxReturns.exe',
+  workingDirectory: 'H:\\',
+  environment: 'BDE is not used',
+  user: 'UAT3',
+  workstation: 'WHYNVCX16',
+  system: 'Windows NT 5.2 (Build 3790: Service Pack 2)',
+  memory: '2,097,152 KB',
 };
 
 export default function AboutDialog({ open, onClose }: AboutDialogProps) {
@@ -118,14 +119,9 @@ export default function AboutDialog({ open, onClose }: AboutDialogProps) {
           </div>
 
           <div className="border-t border-slate-200 pt-4 space-y-1.5 mb-6">
+            <p className="font-['Mulish'] text-[12px] text-[#3d3d3d]">{aboutInfo.system}</p>
             <p className="font-['Mulish'] text-[12px] text-[#3d3d3d]">
-              <span className="font-semibold">System:</span> {aboutInfo.system}
-            </p>
-            <p className="font-['Mulish'] text-[12px] text-[#3d3d3d]">
-              <span className="font-semibold">Memory available:</span>{' '}
-              {typeof performance !== 'undefined' && (performance as any).memory
-                ? `${Math.round((performance as any).memory.jsHeapSizeLimit / 1024).toLocaleString()} KB`
-                : 'Browser-managed'}
+              Memory available to Windows: {aboutInfo.memory}
             </p>
           </div>
 
