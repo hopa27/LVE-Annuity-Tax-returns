@@ -54,16 +54,31 @@ export default function AboutDialog({ open, onClose }: AboutDialogProps) {
       setEmailError(true);
       return;
     }
-    const body = encodeURIComponent(
-      Object.entries(aboutInfo)
-        .map(([k, v]) => {
-          const label = k.charAt(0).toUpperCase() + k.slice(1).replace(/([A-Z])/g, ' $1');
-          return `${label}: ${v}`;
-        })
-        .join('\n')
-    );
-    window.location.href = `mailto:it-support@lv.com?subject=${encodeURIComponent(emailSubject)}&body=${body}`;
+    const bodyLines = [
+      'Hi IT Help Desk,',
+      '',
+      'Please see the About Box information for the Tax Returns application below:',
+      '',
+      ...Object.entries(aboutInfo).map(([k, v]) => {
+        const label = k.charAt(0).toUpperCase() + k.slice(1).replace(/([A-Z])/g, ' $1');
+        return `${label}: ${v}`;
+      }),
+      '',
+      'Thanks,',
+    ];
+    const mailto = `mailto:it-helpdesk@lv.co.uk?subject=${encodeURIComponent(
+      emailSubject
+    )}&body=${encodeURIComponent(bodyLines.join('\r\n'))}`;
+
+    const a = document.createElement('a');
+    a.href = mailto;
+    a.rel = 'noopener';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
     setEmailOpen(false);
+    setEmailSubject('');
   };
 
   const InfoRow = ({ label, value }: { label: string; value: string }) => (
