@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "oOxOKFR1vBzbW5e0f7Ksk"
+uri = "file://ANNUITY_TAX_RETURNS_SCREEN_FLOW.md"
+type = "text"
+title = "Annuity Tax Returns — Screen Flow"
