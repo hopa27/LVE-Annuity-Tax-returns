@@ -81,7 +81,7 @@ export default function TaxReturnGeneration() {
     const reportText = lines.map(l => l.message).join('\n');
     const fileStamp = `${yyyy}${mm}${dd}_${hh}${mi}${ss}`;
     setPendingReportText(reportText);
-    setSaveFilename(`ErrorLog_${fileStamp}`);
+    setSaveFilename('');
     setSaveType('PDF');
 
     setTimeout(() => setSaveDialogOpen(true), 300);
