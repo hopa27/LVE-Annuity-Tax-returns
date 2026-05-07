@@ -65,43 +65,27 @@ export default function TaxReturnGeneration() {
     const ss = String(now.getSeconds()).padStart(2, '0');
     const stamp = `${dd}/${mm}/${yyyy} ${hh}:${mi}:${ss}`;
 
-    const separator = '='.repeat(60);
+    const xLine = 'x'.repeat(80);
     const header = `*** ERROR LOG FOR ${stamp} ***`;
     const ts = `${hh}:${mi}:${ss}`;
 
-    setLogs(prev => {
-      const errorLogs = prev.filter(l => l.type === 'error');
-      const lines: LogEntry[] = [
-        { timestamp: ts, type: 'info', message: header },
-        { timestamp: ts, type: 'info', message: separator },
-      ];
-      if (errorLogs.length === 0) {
-        for (let i = 0; i < 6; i++) {
-          lines.push({ timestamp: ts, type: 'info', message: separator });
-        }
-      } else {
-        errorLogs.forEach(log => {
-          lines.push({ timestamp: ts, type: 'error', message: `[${log.timestamp}] ${log.message}` });
-          lines.push({ timestamp: ts, type: 'info', message: separator });
-        });
-      }
+    const lines: LogEntry[] = [
+      { timestamp: ts, type: 'error', message: header },
+    ];
+    for (let i = 0; i < 8; i++) {
+      lines.push({ timestamp: ts, type: 'error', message: xLine });
+    }
 
-      const reportText = lines.map(l => l.message).join('\n');
-      const fileStamp = `${yyyy}${mm}${dd}_${hh}${mi}${ss}`;
+    setLogs(lines);
 
-      setPendingReportText(reportText);
-      setSaveFilename('');
-      setSaveType('PDF');
+    const reportText = lines.map(l => l.message).join('\n');
+    const fileStamp = `${yyyy}${mm}${dd}_${hh}${mi}${ss}`;
+    setPendingReportText(reportText);
+    setSaveFilename(`ErrorLog_${fileStamp}`);
+    setSaveType('PDF');
 
-      setTimeout(() => {
-        addLog('info', 'Attempting to print...');
-        addLog('error', 'No printer connected. Opening Save Print Output dialog.');
-        setSaveDialogOpen(true);
-      }, 300);
-
-      return lines;
-    });
-  }, [addLog]);
+    setTimeout(() => setSaveDialogOpen(true), 300);
+  }, []);
 
   const handleSavePrintOutput = useCallback(() => {
     const name = saveFilename.trim();
